@@ -3,6 +3,8 @@ stages:
     cmd: python src/data/make_dataset.py
     deps:
     - src/data/make_dataset.py
+    params:
+      - make_dataset.test_size
     outs:
     - data/raw
   preprocessing:
@@ -17,6 +19,8 @@ stages:
     deps:
     - src/features/build_features.py
     - src/preprocessing.py
+    params:
+    - build_features.max_features
     outs:
     - data/feature
   train_model:
@@ -24,6 +28,9 @@ stages:
     deps:
     - src/features/build_features.py
     - src/models/train_model.py
+    params:
+    - train_model.n_estimators
+    - train_model.learning_rate
     outs:
     - model.pkl
   predict_model:

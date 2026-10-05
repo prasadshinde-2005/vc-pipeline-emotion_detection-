@@ -7,10 +7,13 @@ stages:
       hash: md5
       md5: 4c52806d162492cb769c72b6463ec0d0
       size: 5108
+    params:
+      params.yaml:
+        make_dataset.test_size: 0.4
     outs:
     - path: data/raw
       hash: md5
-      md5: c5690d49d98288799ec6adeab031b0a9.dir
+      md5: 1d494904adb11a1fa18664e9ec313135.dir
       size: 827973
       nfiles: 2
   preprocessing:
@@ -41,11 +44,14 @@ stages:
       hash: md5
       md5: 07eb7786e94cb720191c49891e205154
       size: 5731
+    params:
+      params.yaml:
+        build_features.max_features: 100
     outs:
     - path: data/feature
       hash: md5
-      md5: b85cabad0873239e0c816ffbbdae3841.dir
-      size: 1068816
+      md5: 405eef4981a52a740980be79ca427e7a.dir
+      size: 2106516
       nfiles: 2
   train_model:
     cmd: python src/models/train_model.py
@@ -58,18 +64,22 @@ stages:
       hash: md5
       md5: cc50bfe8ce4d2411e867fd1af994d2ef
       size: 4983
+    params:
+      params.yaml:
+        train_model.learning_rate: 0.1
+        train_model.n_estimators: 100
     outs:
     - path: model.pkl
       hash: md5
-      md5: 716915548968340e3e5bd4fe752b7e7b
-      size: 136876
+      md5: a92a437f3eb653cf548d0f698cbc0255
+      size: 135292
   predict_model:
     cmd: python src/models/predict_model.py
     deps:
     - path: model.pkl
       hash: md5
-      md5: 716915548968340e3e5bd4fe752b7e7b
-      size: 136876
+      md5: a92a437f3eb653cf548d0f698cbc0255
+      size: 135292
     - path: src/models/predict_model.py
       hash: md5
       md5: d737acca76162f44c51e7728056cfe12
@@ -77,5 +87,5 @@ stages:
     outs:
     - path: metrics.json
       hash: md5
-      md5: 141215288015e68f14b9d22e9d72b7ea
-      size: 146
+      md5: 8e8b1d378425e27e60d22a8b2bae9e54
+      size: 144

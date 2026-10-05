@@ -213,7 +213,7 @@ def main():
         logger.info("Starting model evaluation.")
 
         # Paths relative to the project root
-        test_data_path = "data/feature/test_bow.csv"
+        test_data_path = "data/feature/test_tfidf.csv"
         model_path = "model.pkl"
         metrics_path = "metrics.json"
 

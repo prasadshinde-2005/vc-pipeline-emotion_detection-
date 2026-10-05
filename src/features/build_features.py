@@ -6,7 +6,7 @@ import yaml
 import logging
 import sys
 
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 # Configure logger
@@ -120,21 +120,21 @@ def split_data(train_data, test_data):
 
 
 # Apply Bag of Words
-def apply_bow(x_train, x_test, max_features):
+def apply_tfidf(x_train, x_test, max_features):
     try:
         logger.debug("Applying Bag of Words")
 
-        vectorizer = CountVectorizer(max_features=max_features)
+        vectorizer = TfidfVectorizer(max_features=max_features)
 
-        x_train_bow = vectorizer.fit_transform(x_train)
-        x_test_bow = vectorizer.transform(x_test)
+        x_train_tfidf = vectorizer.fit_transform(x_train)
+        x_test_tfidf = vectorizer.transform(x_test)
 
-        logger.info("Bag of Words applied successfully.")
-        logger.debug("Train BoW shape: %s", x_train_bow.shape)
-        logger.debug("Test BoW shape: %s", x_test_bow.shape)
+        logger.info(" tfidf applied successfully.")
+        logger.debug("Train tfidf shape: %s", x_train_tfidf.shape)
+        logger.debug("Test tfidf shape: %s", x_test_tfidf.shape)
         logger.debug("Vocabulary size: %s", len(vectorizer.vocabulary_))
 
-        return x_train_bow, x_test_bow
+        return x_train_tfidf , x_test_tfidf
 
     except ValueError:
         logger.exception(
@@ -149,14 +149,14 @@ def apply_bow(x_train, x_test, max_features):
 
 
 # Create feature DataFrames
-def create_feature_df(x_train_bow, y_train, x_test_bow, y_test):
+def create_feature_df(x_train_tfidf , y_train, x_test_tfidf , y_test):
     try:
         logger.debug("Creating feature DataFrames")
 
-        train_df = pd.DataFrame(x_train_bow.toarray())
+        train_df = pd.DataFrame(x_train_tfidf.toarray())
         train_df["label"] = y_train
 
-        test_df = pd.DataFrame(x_test_bow.toarray())
+        test_df = pd.DataFrame(x_test_tfidf.toarray())
         test_df["label"] = y_test
 
         logger.info("Feature DataFrames created.")
@@ -178,8 +178,8 @@ def save_feature_data(train_df, test_df):
         logger.debug("Creating output directory: %s", data_path)
         os.makedirs(data_path, exist_ok=True)
 
-        train_path = os.path.join(data_path, "train_bow.csv")
-        test_path = os.path.join(data_path, "test_bow.csv")
+        train_path = os.path.join(data_path, "train_tfidf.csv")
+        test_path = os.path.join(data_path, "test_tfidf.csv")
 
         train_df.to_csv(train_path, index=False)
         test_df.to_csv(test_path, index=False)
@@ -209,7 +209,7 @@ def main():
             train_data, test_data
         )
 
-        x_train_bow, x_test_bow = apply_bow(
+        x_train_bow, x_test_bow = apply_tfidf(
             x_train, x_test, max_features
         )
 

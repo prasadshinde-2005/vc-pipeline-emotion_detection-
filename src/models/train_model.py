@@ -158,7 +158,7 @@ def main():
 
         n_estimators, learning_rate = parameter("params.yaml")
 
-        train_data = read_data("./data/feature/train_bow.csv")
+        train_data = read_data("./data/feature/train_tfidf.csv")
 
         x_train, y_train = separate_data(train_data)
 

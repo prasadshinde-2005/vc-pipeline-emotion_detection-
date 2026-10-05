@@ -26,7 +26,7 @@ def load_params(params_path: str) -> float:
         if not isinstance(params, dict):
             raise ValueError("Invalid YAML structure in params file.")
 
-        test_size = params["data_ingestion"]["test_size"]
+        test_size = params["make_dataset"]["test_size"]
 
         if not isinstance(test_size, (int, float)) or not 0 < test_size < 1:
             raise ValueError("test_size must be a number between 0 and 1.")
@@ -144,7 +144,7 @@ def save_data(
 # Main function
 def main():
     try:
-        logger.info("Starting data ingestion...")
+        logger.info("Starting make_datsset...")
 
         test_size = load_params("params.yaml")
 

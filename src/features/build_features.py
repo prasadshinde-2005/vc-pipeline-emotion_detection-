@@ -25,7 +25,7 @@ def load_params():
         with open("params.yaml", "r", encoding="utf-8") as file:
             params = yaml.safe_load(file)
 
-        max_features = params["feature_eng"]["max_features"]
+        max_features = params["build_features"]["max_features"]
 
         if not isinstance(max_features, int) or max_features <= 0:
             raise ValueError("max_features must be a positive integer.")
